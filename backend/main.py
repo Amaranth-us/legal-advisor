@@ -5,6 +5,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from openai import OpenAI
+from openai.types.chat import ChatCompletionMessageParam
 from pydantic import BaseModel
 
 load_dotenv()
@@ -38,7 +39,7 @@ async def root():
 @app.post("/chat", response_model=ChatResponse)
 async def chat(request: ChatRequest):
     try:
-        messages = [
+        messages: list[ChatCompletionMessageParam] = [
             {
                 "role": "system",
                 "content": "Act as a professional legal advisor. Provide general legal "
@@ -53,8 +54,9 @@ async def chat(request: ChatRequest):
             model="gpt-3.5-turbo", messages=messages, max_tokens=500, temperature=0.7
         )
 
-        answer = response.choices[0].message.content
-        return {"answer": answer.strip()}
+        answer_res = response.choices[0].message.content
+        answer = answer_res.strip() if answer_res else "No response from model."
+        return {"answer": answer}
 
     except Exception as e:
         return JSONResponse(status_code=500, content={"error": str(e)})
