@@ -1,13 +1,17 @@
 import os
 
+import database
 import tiktoken
+from crud import chat_history_crud
 from dotenv import load_dotenv
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from openai import OpenAI, OpenAIError, RateLimitError
 from openai.types.chat import ChatCompletionMessageParam
 from pydantic import BaseModel, ValidationError
+from schemas import chat_history_schemas
+from sqlalchemy.orm import Session
 from tenacity import (
     retry,
     retry_if_exception_type,
@@ -126,3 +130,21 @@ async def chat(request: ChatRequest):
             status_code=500,
             content={"error": "Internal server error", "details": str(e)},
         )
+
+
+@app.post("/chat-history/", response_model=chat_history_schemas.ChatHistory)
+def create_chat_history(
+    chat_history: chat_history_schemas.ChatHistoryCreate,
+    db: Session = Depends(database.get_db),
+):
+    return chat_history_crud.create_chat_history(db=db, chat_history=chat_history)
+
+
+@app.get(
+    "/chat-history/{session_id}", response_model=list[chat_history_schemas.ChatHistory]
+)
+def get_chat_history(session_id: str, db: Session = Depends(database.get_db)):
+    chat_history = chat_history_crud.get_chat_history_by_session_id(
+        db=db, session_id=session_id
+    )
+    return chat_history
