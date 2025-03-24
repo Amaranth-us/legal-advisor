@@ -75,9 +75,9 @@ You can use a virtual environment (venv) to set up the project.
     ```
 
 
-## Backend notes
+### Backend notes
 
-PROBLEMS 
+#### PROBLEMS 
 
 My port 8000 is already used by uvicorn:
 1.	Find the process using it: lsof -i :8000
@@ -122,7 +122,7 @@ Run chat-history-init.sql script:
 legal_advisor$ \i '/Users/one-ai-dev-1/Desktop/untitled folder/projects/inf/legal_advisor/backend/init/chat-history-init.sql'
 
 
-## Frontend notes
+### Frontend notes
 If you want multiple pages, you create a folder named pages in the same directory as main file and inside make the pages with pagename.py etc. 
 You can tell it which order to display the pages in, with prefixing the pagenames with a number 1_pagename.py, 2_pagename.py etc.
 
