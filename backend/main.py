@@ -1,5 +1,6 @@
 import os
 from datetime import datetime
+from typing import List
 
 import database
 import tiktoken
@@ -199,6 +200,18 @@ def create_chat_history(
     db: Session = Depends(database.get_db),
 ):
     return chat_history_crud.create_chat_history(db=db, chat_history=chat_history)
+
+
+@app.get("/chat-history/", response_model=List[chat_history_schemas.ChatHistory])
+def read_chat_histories(
+    skip: int = 0, limit: int = 10, db: Session = Depends(database.get_db)
+):
+    chat_histories = chat_history_crud.get_chat_history_all(db, skip=skip, limit=limit)
+
+    if not chat_histories:
+        raise HTTPException(status_code=404, detail="No chat histories found")
+
+    return chat_histories
 
 
 @app.get(

@@ -10,7 +10,7 @@ def get_chat_history(db: Session, id: int):
 
 
 # Get all chat history entries
-def get_chat_histories(db: Session, skip: int = 0, limit: int = 10):
+def get_chat_history_all(db: Session, skip: int = 0, limit: int = 10):
     return db.query(models.ChatHistory).offset(skip).limit(limit).all()
 
 
