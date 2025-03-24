@@ -1,6 +1,6 @@
 from models import chat_history_models as models
 from schemas import chat_history_schemas as schemas
-from sqlalchemy import func
+from sqlalchemy import Integer, func
 from sqlalchemy.orm import Session
 
 
@@ -69,3 +69,11 @@ def get_sessions_with_oldest_timestamps(db: Session):
         )
 
     return session_with_oldest_timestamp
+
+
+# Get the last session id
+def get_highest_session_id(db: Session):
+    # return db.query(func.max(models.ChatHistory.session_id)).scalar()
+    return db.query(
+        func.max(func.cast(models.ChatHistory.session_id, Integer))
+    ).scalar()
