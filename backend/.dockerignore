@@ -1,0 +1,59 @@
+# Git-related
+.git/
+.github/
+**/.gitattributes
+**/.gitignore
+
+# Docker
+Dockerfile
+compose.yaml
+compose.dev.yaml
+.dockerignore
+
+# Environments
+**/.env*
+**/.env/
+# **/.venv/
+**/env/
+# **/venv/
+**/ENV/
+**/env.bak/
+# **/venv.bak/
+
+# VSCode
+**/.history/
+**/*.vsix
+
+# PyCharm
+**/.idea_modules/
+**/.idea/
+
+# File-based project format
+**/*.iws
+
+# Python byte-compiled / optimized / DLL files
+**/.ruff_cache/
+**/__pycache__/
+**/*.py[cod]
+**/*$py.class
+
+# Distribution / packaging
+**/__pypackages__/
+**/.Python
+**/build/
+**/develop-eggs/
+**/dist/
+**/downloads/
+**/eggs/
+**/.eggs/
+**/lib/
+**/lib64/
+**/parts/
+**/sdist/
+**/var/
+**/wheels/
+**/share/python-wheels/
+**/*.egg-info/
+**/.installed.cfg
+**/*.egg
+**/MANIFEST
